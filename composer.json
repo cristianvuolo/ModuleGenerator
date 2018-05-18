@@ -1,5 +1,5 @@
 {
-  "name": "CristianVuolo/ModuleGenerator",
+  "name": "cristianvuolo/modulegenerator",
   "license": "MIT",
   "description": "Cristian`s Module Generator to Laravel",
   "require": {
