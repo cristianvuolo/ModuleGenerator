@@ -1,0 +1,101 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Http\Request;
+use DummyRootNamespaceHttp\Controllers\Controller;
+
+class DummyClass extends Controller
+{
+        private $model;
+        private $moduleName;
+        private $moduleTitlePlural;
+        private $moduleTitle;
+
+        public function __construct(Model $FRModuleName)
+        {
+            // Find and Replace FRModuleName
+            // Find and Replace FRUModuleName (Ucfirst)
+
+            // Find and Replace FRPluralModuleTitle
+            // Find and Replace FRModuleTitle
+
+            $this->model = $FRModuleName;
+            $this->moduleName = 'FRModuleName';
+            $this->moduleTitle = 'FRModuleTitle';
+            $this->moduleTitlePlural = 'FRPluralModuleTitle';
+            view()->share([
+                'moduleName' => $this->moduleName,
+                'moduleTitlePlural' => $this->moduleTitlePlural,
+                'moduleTitle' => $this->moduleTitle,
+            ]);
+        }
+
+        public function gerenciar()
+        {
+            $view = [
+                'title' => 'Gerenciar ' . $this->moduleTitlePlural,
+                'itens' => $this->model->all(),
+            ];
+
+            return view('admin.api.FRModuleName.gerenciar', $view);
+        }
+
+        public function novo()
+        {
+            $view = [
+                'title' => 'Cadastrar ' . $this->moduleTitle,
+                'model' => new $this->model,
+            ];
+
+            return view('admin.api.FRModuleName.form', $view);
+        }
+
+        public function alterar($id)
+        {
+            $view = [
+                'title' => 'Alterar ' . $this->moduleTitle,
+                'model' => $this->model->find($id),
+            ];
+            return view('admin.api.FRModuleName.form', $view);
+        }
+
+
+        public function store()
+        {
+            $this->validateFRUModuleName();
+            $this->model->storeFRUModuleName();
+            return redirect()->route('admin.FRModuleName.gerenciar')->with('ok', 'Dados Cadastrados');
+        }
+
+        public function update($id)
+        {
+            $this->validateFRUModuleName($id);
+            $this->model->updateFRUModuleName($id);
+            return redirect()->route('admin.FRModuleName.gerenciar')->with('ok', 'Dados Atualizados');
+        }
+
+        public function delete($id)
+        {
+            $this->model->deleteFRUModuleName($id);
+            return redirect()->route('admin.FRModuleName.gerenciar')->with('ok', 'Registro Removido');
+        }
+
+        public function validateFRUModuleName($id=null)
+        {
+            $rules = [
+                'nome' => 'required',
+                'status' => 'required',
+            ];
+
+            if(is_null($id)) {
+                $rules['img'] = 'required|image';
+            }
+
+            $messages = [
+                'required' => 'Campo Obrigatório',
+                'image' => 'Adicione uma imagem válida',
+            ];
+            $this->validate(request(), $rules, $messages);
+        }
+}

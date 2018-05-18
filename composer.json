@@ -1,0 +1,21 @@
+{
+  "name": "CristianVuolo/ModuleGenerator",
+  "license": "MIT",
+  "description": "Cristian`s Module Generator to Laravel",
+  "require": {
+    "php": ">=5.5.9",
+    "atehnix/laravel-stubs": "^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "CristianVuolo\\ModuleGenerator\\": "/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "CristianVuolo\\ModuleGenerator\\GeneratorServiceProvider"
+      ]
+    }
+  }
+}
