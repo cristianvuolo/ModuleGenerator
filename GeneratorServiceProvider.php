@@ -6,7 +6,7 @@ namespace CristianVuolo\ModuleGenerator;
 use CristianVuolo\ModuleGenerator\Commands\CreateModule;
 use Illuminate\Support\ServiceProvider;
 
-class GeneratorServiceProvicer extends ServiceProvider
+class GeneratorServiceProvider extends ServiceProvider
 {
     public function boot()
     {
