@@ -29,7 +29,7 @@ class GeneratorServiceProvider extends ServiceProvider
             if ($module['active']) {
                 $route = strtolower($module['name']) . 'Routes.php';
                 $this->app['view']->addLocation(app_path('Modules/'.$module['name'] . '/resources/views'));
-                \File::requireOnce(app_path('Modules/'.$module['name'] . "/routes/{$route}"));
+                \File::requireOnce(app_path('Modules/'. ucfirst($module['name']) . "/routes/{$route}"));
             }
         }
     }
