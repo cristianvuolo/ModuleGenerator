@@ -28,7 +28,7 @@ class GeneratorServiceProvider extends ServiceProvider
         foreach (config('cv_modules.modules', []) as $module) {
             if ($module['active']) {
                 $route = strtolower($module['name']) . 'Routes.php';
-                $this->app['view']->addLocation(app_path('Modules/'.$module['name'] . '/resources/views'));
+                $this->app['view']->addLocation(app_path('Modules/'. ucfirst($module['name']) . '/resources/views'));
                 \File::requireOnce(app_path('Modules/'. ucfirst($module['name']) . "/routes/{$route}"));
             }
         }
