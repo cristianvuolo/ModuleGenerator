@@ -112,7 +112,7 @@ class CreateModule extends Command
 
     public function addConfig()
     {
-        $data = array_merge(config('cv_modules.modules', []), [['name' => $this->argument('name'), 'active' => true]]);
+        $data = array_merge(config('cv_modules.modules', []), [['name' => ucfirst($this->argument('name')), 'active' => true]]);
         $array = var_export(['modules' => $data], true);
         $config = '<?php return ' . $array . ';';
         file_put_contents(config_path('cv_modules.php'), $config);
