@@ -14,12 +14,6 @@ class DummyClass extends Controller
 
         public function __construct(Model $FRModuleName)
         {
-            // Find and Replace FRModuleName
-            // Find and Replace FRUModuleName (Ucfirst)
-
-            // Find and Replace FRPluralModuleTitle
-            // Find and Replace FRModuleTitle
-
             $this->model = $FRModuleName;
             $this->moduleName = 'FRModuleName';
             $this->moduleTitle = 'FRModuleTitle';
@@ -64,32 +58,37 @@ class DummyClass extends Controller
         public function store()
         {
             $this->validateFRUModuleName();
-            $this->model->storeFRUModuleName();
+            $model = new $this->model;
+            $request = request();
+            //
+            $model->save();
             return redirect()->route('admin.FRModuleName.gerenciar')->with('ok', 'Dados Cadastrados');
         }
 
         public function update($id)
         {
             $this->validateFRUModuleName($id);
-            $this->model->updateFRUModuleName($id);
+            $model = $this->model->find($id);
+            $request = request();
+            //
+            $model->save();
             return redirect()->route('admin.FRModuleName.gerenciar')->with('ok', 'Dados Atualizados');
         }
 
         public function delete($id)
         {
-            $this->model->deleteFRUModuleName($id);
+            $this->model->find($id)->delete();
             return redirect()->route('admin.FRModuleName.gerenciar')->with('ok', 'Registro Removido');
         }
 
         public function validateFRUModuleName($id=null)
         {
             $rules = [
-                'nome' => 'required',
-                'status' => 'required',
-            ];
+                
+                ];
 
             if(is_null($id)) {
-                $rules['img'] = 'required|image';
+                //$rules['img'] = 'required|image';
             }
 
             $messages = [

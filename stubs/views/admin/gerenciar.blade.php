@@ -8,8 +8,8 @@
         <thead>
         <tr>
             <th>Nome</th>
-            <th>Email</th>
-            <th>Cursos</th>
+            <th></th>
+            <th></th>
             <th>Cadastro</th>
             <th>Ações</th>
         </tr>
@@ -22,7 +22,7 @@
                         {{ $iten->name }}
                     </a>
                 </td>
-                <td>{{ $iten->email }}</td>
+                <td></td>
                 <td></td>
                 <td>{{ $iten->created_at->format('d/m/Y') }}</td>
                 <td>
