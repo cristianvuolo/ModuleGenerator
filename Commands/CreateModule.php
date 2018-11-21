@@ -38,7 +38,7 @@ class CreateModule extends Command
      */
     public function handle()
     {
-
+        $ds = DIRECTORY_SEPARATOR;
         foreach(config('cv_modules.modules', []) as $item) {
             if($this->argument('name') == $item['name']) {
                 $this->error('O Módulo já está cadastrado em cv_modules');
@@ -46,16 +46,16 @@ class CreateModule extends Command
             }
         }
         $name = ucfirst($this->argument('name'));
-        $modulePath = "Modules\\$name";
+        $modulePath = "Modules{$ds}$name";
         $routesFile = strtolower($name) . 'Routes.php';
         $viewFolder = strtolower($name);
 
 
         $this->call('make:controller', [
-            'name' => "{$modulePath}\\Controllers\\{$name}Controller"
+            'name' => "{$modulePath}{$ds}Controllers{$ds}{$name}Controller"
         ]);
 
-        $controllerFile = app_path("{$modulePath}\\Controllers\\{$name}Controller.php");
+        $controllerFile = app_path("{$modulePath}{$ds}Controllers{$ds}{$name}Controller.php");
         $controllerData = file_get_contents($controllerFile);
         $controllerData =
             str_replace(
@@ -63,7 +63,7 @@ class CreateModule extends Command
                 [$name, strtolower($name), $this->argument('title'), $this->argument('titlePlural')],
                 $controllerData
             );
-        file_put_contents(app_path("{$modulePath}\\Controllers\\{$name}Controller.php"), $controllerData);
+        file_put_contents(app_path("{$modulePath}{$ds}Controllers{$ds}{$name}Controller.php"), $controllerData);
         $this->info('Os nomes dos métodos foram alterados');
 
 
@@ -72,21 +72,21 @@ class CreateModule extends Command
         @mkdir(app_path('Modules'));
 
         mkdir(app_path("{$modulePath}/resources/views/admin/api/{$viewFolder}"), null, true);
-        $this->recurse_copy(__DIR__ . '/../stubs/views/admin', app_path("{$modulePath}\\resources\\views\\admin\\api\\{$viewFolder}"));
+        $this->recurse_copy(__DIR__ . '/../stubs/views/admin', app_path("{$modulePath}{$ds}resources{$ds}views{$ds}admin{$ds}api{$ds}{$viewFolder}"));
         $this->info('As Views foram adicionadas no diretório');
 
-        mkdir(app_path("{$modulePath}\\routes"));
-        copy(__DIR__ . '/../stubs/routes/routes.php', app_path("{$modulePath}\\routes\\{$routesFile}"));
+        mkdir(app_path("{$modulePath}{$ds}routes"));
+        copy(__DIR__ . '/../stubs/routes/routes.php', app_path("{$modulePath}{$ds}routes{$ds}{$routesFile}"));
 
-        $routeFile = app_path("{$modulePath}\\routes\\{$routesFile}");
+        $routeFile = app_path("{$modulePath}{$ds}routes{$ds}{$routesFile}");
         $routes = file_get_contents($routeFile);
         $routes = str_replace(['FRUmoduleName', 'FRmoduleName'], [$name, strtolower($name)], $routes);
-        file_put_contents(app_path("{$modulePath}\\routes\\{$routesFile}"), $routes);
+        file_put_contents(app_path("{$modulePath}{$ds}routes{$ds}{$routesFile}"), $routes);
         $this->info('Os nomes das rotas foram alterados');
 
         $this->info('As Routes foram adicionadas');
 
-        mkdir(app_path("{$modulePath}\\Services"));
+        mkdir(app_path("{$modulePath}{$ds}Services"));
         $this->info('Diretório de Services adicionado');
 
         $this->addConfig();
@@ -97,13 +97,14 @@ class CreateModule extends Command
     public function recurse_copy($src, $dst)
     {
         $dir = opendir($src);
+        $ds = DIRECTORY_SEPARATOR;
         @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
-                if (is_dir($src . '/' . $file)) {
-                    $this->recurse_copy($src . '/' . $file, $dst . '/' . $file);
+                if (is_dir($src . $ds . $file)) {
+                    $this->recurse_copy($src . $ds . $file, $dst . $ds . $file);
                 } else {
-                    copy($src . '/' . $file, $dst . '/' . $file);
+                    copy($src . $ds . $file, $dst . $ds . $file);
                 }
             }
         }
