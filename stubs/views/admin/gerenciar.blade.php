@@ -38,4 +38,4 @@
         </tbody>
     </table>
 @endsection
-@include('admin.partials.datatables', ['disable' => '4', 'dates' => [3], 'default' => [0],])
+@include('admin.partials.datatables', ['disable' => '4', 'dates' => [3], 'default' => [0, 'desc'],])
